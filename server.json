@@ -1,19 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.auditsocials/auditsocials-compliance-mcp",
+  "name": "io.github.eminegurcu/auditsocials-compliance-mcp",
   "title": "AuditSocials Compliance",
   "description": "Pre-publish policy check for AI-generated social & ad content across 8 platforms.",
   "repository": {
     "url": "https://github.com/auditsocials/auditsocials-compliance-mcp",
     "source": "github"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "auditsocials-compliance-mcp",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "transport": {
         "type": "stdio"
       },

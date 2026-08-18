@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.auditsocials/auditsocials-compliance-mcp",
+  "title": "AuditSocials Compliance",
+  "description": "Check AI-generated social and ad content against the current policies of 8 platforms (Meta, TikTok, LinkedIn, Google Ads, YouTube, X, Snapchat, Pinterest) before publishing, so posts, accounts and ads aren't flagged, demonetized or banned.",
+  "repository": {
+    "url": "https://github.com/auditsocials/auditsocials-compliance-mcp",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "auditsocials-compliance-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "AUDITSOCIALS_API_KEY",
+          "description": "Your AuditSocials Compliance API key. Get one free at https://www.auditsocials.com/compliance-api",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

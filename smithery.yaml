@@ -1,0 +1,19 @@
+# Smithery configuration: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+
+configSchema:
+  # JSON Schema for this server's configuration.
+  type: object
+  required:
+    - auditsocialsApiKey
+  properties:
+    auditsocialsApiKey:
+      type: string
+      description: Your AuditSocials Compliance API key. Get one free at https://www.auditsocials.com/compliance-api
+
+commandFunction:
+  # Produces the CLI command that starts the MCP server on stdio.
+  |-
+  config => ({ command: 'npx', args: ['-y', 'auditsocials-compliance-mcp'], env: { AUDITSOCIALS_API_KEY: config.auditsocialsApiKey } })

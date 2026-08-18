@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.auditsocials/auditsocials-compliance-mcp",
   "title": "AuditSocials Compliance",
-  "description": "Check AI-generated social and ad content against the current policies of 8 platforms (Meta, TikTok, LinkedIn, Google Ads, YouTube, X, Snapchat, Pinterest) before publishing, so posts, accounts and ads aren't flagged, demonetized or banned.",
+  "description": "Pre-publish policy check for AI-generated social & ad content across 8 platforms.",
   "repository": {
     "url": "https://github.com/auditsocials/auditsocials-compliance-mcp",
     "source": "github"

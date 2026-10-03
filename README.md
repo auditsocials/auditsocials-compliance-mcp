@@ -13,7 +13,7 @@ Give your AI writing assistant or agent a **pre‑publish compliance guardrail**
 - 🎯 **Actionable findings** — the exact risky phrase, the severity, a confidence label, *why* it violates policy, and a **compliant rewrite**.
 - 🤖 **Built for agents** — a single MCP tool with a rich description; your agent discovers and calls it automatically.
 - ⚡ **30‑second setup** — `npx`, drop in a free key, done. Works with Claude, Cursor, VS Code, Windsurf, Cline and any MCP client.
-- 🆓 **Free tier** — 50 checks / month, no credit card.
+- 🆓 **Free tier** — 50 credits / month (about 10 checks), no credit card.
 
 ---
 
@@ -54,7 +54,7 @@ Every finding carries a **confidence label** (`firm` vs `possibly_risky`) so you
 
 ## Quickstart
 
-1. **Get a free API key** → <https://www.auditsocials.com/compliance-api> (50 checks/month, no card).
+1. **Get a free API key** → <https://www.auditsocials.com/compliance-api> (50 credits/month ≈ 10 checks, no card).
 2. Add the server to your MCP client (config below) with your key as `AUDITSOCIALS_API_KEY`.
 3. Ask your agent: *"Check this before I post it: …"*
 
@@ -103,7 +103,7 @@ Checks a piece of social/ad content against the current policies of the 8 platfo
 | `platforms` | `string[]` (optional) | Any of `Meta`, `TikTok`, `LinkedIn`, `Google Ads`, `YouTube`, `X`, `Snapchat`, `Pinterest`. Omit to check against all 8. |
 | `contentType` | `post` \| `caption` \| `ad` \| `video-script` (optional) | Helps apply the right rule set. |
 
-**Returns:** an overall `verdict` (e.g. `ok` / `needs_changes`), a short `summary`, and a list of `findings` — each with `severity`, `confidence`, the matched phrase, the reason it's risky, and a suggested compliant rewrite. Each response also reports your remaining monthly credits.
+**Returns:** an overall `verdict` (`compliant` or `needs_changes`), a short `summary`, and a list of `findings` — each with `severity`, `confidence`, the matched phrase, the reason it's risky, and a suggested compliant rewrite. Each response also reports your remaining monthly credits.
 
 ## Example response
 
@@ -123,19 +123,19 @@ Verdict: NEEDS_CHANGES
     fix: Rephrase to a hedged, substantiable statement and add any required disclaimer.
 
 … + 2 more
-— 49 of 50 credits left this month (free).
+— 45 of 50 credits left this month (free).
 ```
 
 ## Pricing & limits
 
-One credit = one full‑quality check (deterministic + AI, all 8 platforms). You're charged on **volume, not depth** — every tier returns the full result.
+A compliance check uses 5 credits and is always full quality (deterministic + AI, all 8 platforms). You're charged on **volume, not depth** — every tier returns the full result.
 
-| Tier | Checks / month | Price |
-|------|----------------|-------|
-| **Free** | 50 | $0 — no card |
-| **Starter** | 5,000 | $99 / mo |
-| **Growth** | 25,000 | $299 / mo |
-| **Scale** | custom / OEM | [talk to us](https://www.auditsocials.com/compliance-api) |
+| Tier | Credits / month | ≈ Checks / month | Price |
+|------|-----------------|------------------|-------|
+| **Free** | 50 | 10 | $0 — no card |
+| **Starter** | 5,000 | 1,000 | $99 / mo |
+| **Growth** | 25,000 | 5,000 | $299 / mo |
+| **Scale** | custom / OEM | — | [talk to us](https://www.auditsocials.com/compliance-api) |
 
 Check your balance any time at <https://www.auditsocials.com/compliance-api/usage> or `GET /api/v1/credits`.
 
@@ -159,7 +159,7 @@ Meta (Facebook & Instagram), TikTok, LinkedIn, Google Ads, YouTube, X (Twitter),
 No. It's a risk‑flagging layer, not a guarantee. Platform review is opaque and changes constantly; the tool surfaces known policy risk and cites the rule behind each flag so you can decide. It deliberately does not claim to predict or guarantee approval.
 
 **Do I need an API key?**
-Yes — a free key (50 checks/month, no card) at <https://www.auditsocials.com/compliance-api>. Set it as `AUDITSOCIALS_API_KEY`.
+Yes — a free key (50 credits/month ≈ 10 checks, no card) at <https://www.auditsocials.com/compliance-api>. Set it as `AUDITSOCIALS_API_KEY`.
 
 **Which MCP clients work?**
 Any MCP client that supports stdio servers — Claude Desktop, Claude Code, Cursor, VS Code, Windsurf, Cline, Continue, Zed and others.

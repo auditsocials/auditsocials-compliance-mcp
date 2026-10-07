@@ -1,6 +1,6 @@
 {
   "name": "auditsocials-compliance-mcp",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "mcpName": "io.github.eminegurcu/auditsocials-compliance-mcp",
   "description": "MCP server that checks AI-generated social media content against live platform policy across 8 platforms (Meta, TikTok, LinkedIn, Google Ads, YouTube, X, Snapchat, Pinterest) before it's published — so posts, accounts and ads aren't flagged, demonetized or banned.",
   "type": "module",
@@ -36,12 +36,12 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.5.0",
-    "@types/node": "^20.14.0"
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.0"
   },
   "engines": {
     "node": ">=18"

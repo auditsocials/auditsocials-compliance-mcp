@@ -40,12 +40,15 @@ interface Finding {
   matchedText: string;
   issue: string;
   suggestion: string;
+  source?: "rule" | "ai";
 }
 interface ApiResponse {
   verdict?: string;
   summary?: string;
   platforms?: string[];
   findings?: Finding[];
+  aiGenerated?: boolean;
+  aiDisclosure?: string;
   credits?: { used: number; limit: number; remaining: number; tier: string; upgrade?: string };
   error?: string;
   message?: string;
@@ -54,7 +57,7 @@ interface ApiResponse {
 
 const server = new McpServer({
   name: "auditsocials-compliance",
-  version: "0.1.0",
+  version: "0.1.4",
 });
 
 server.tool(
@@ -70,6 +73,16 @@ server.tool(
       .enum(["post", "caption", "ad", "video-script"])
       .optional()
       .describe("Type of content (helps apply the right rule set)."),
+  },
+  {
+    // The tool only reads/evaluates the supplied content against hosted policy —
+    // it creates no resources and mutates nothing, but it does reach an external
+    // API (the hosted AuditSocials Compliance service), hence openWorldHint.
+    title: "Check Social Content Compliance",
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
   },
   async ({ content, platforms, contentType }) => {
     if (!API_KEY) {
@@ -105,13 +118,25 @@ server.tool(
       return { content: [{ type: "text", text: `Auth failed: ${data.error || "invalid API key"}. Get a key at ${data.upgrade || "https://www.auditsocials.com/compliance-api"}.` }], isError: true };
     }
     if (res.status === 429) {
+      if (data.credits) {
+        // Monthly credit quota exhausted (any tier).
+        const tier = data.credits.tier ? ` on the ${data.credits.tier} tier` : "";
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Monthly credits used up${tier} (${data.credits.used}/${data.credits.limit}). ${data.message ?? ""} Upgrade for higher volume: ${data.upgrade || "https://www.auditsocials.com/compliance-api"}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+      // Per-IP request rate limit ({ error: "Too many requests" } + Retry-After).
+      const retryAfter = Number(res.headers.get("retry-after"));
+      const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? ` Retry in ${retryAfter}s.` : " Retry shortly.";
       return {
-        content: [
-          {
-            type: "text",
-            text: `Free monthly credits used up (${data.credits?.used}/${data.credits?.limit}). ${data.message ?? ""} Upgrade for higher volume: ${data.upgrade || "https://www.auditsocials.com/compliance-api"}`,
-          },
-        ],
+        content: [{ type: "text", text: `Rate limited by the AuditSocials API (${data.error || "too many requests"}).${wait}` }],
+        isError: true,
       };
     }
     if (!res.ok) {
@@ -125,12 +150,13 @@ server.tool(
       lines.push("\nFindings:");
       for (const f of data.findings) {
         lines.push(
-          `\n• [${f.severity}/${f.confidence}] ${f.pattern} (${f.sector})\n` +
+          `\n• [${f.severity}/${f.confidence}${f.source === "ai" ? "/AI-generated" : ""}] ${f.pattern} (${f.sector})\n` +
             `    risky text: "${f.matchedText}"\n` +
             `    why: ${f.issue}\n` +
             `    fix: ${f.suggestion}`,
         );
       }
+      if (data.aiGenerated && data.aiDisclosure) lines.push(`\n${data.aiDisclosure}`);
     } else {
       lines.push("\nNo policy risks detected in this pass.");
     }
